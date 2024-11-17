@@ -65,11 +65,8 @@
     function drawComponents() {
       ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
 
-      // Desenha as paredes
-      ctx.fillStyle = 'red';
-      walls.forEach(wall => {
-        ctx.fillRect(wall.x, wall.y, wall.width, wall.height); // Desenha cada parede
-      });
+      // Não desenha mais as paredes vermelhas
+      // Removi a parte que desenhava as paredes vermelhas
 
       // Desenha o quadrado azul
       ctx.fillStyle = 'blue';
@@ -92,6 +89,7 @@
 
     // Função para verificar colisão com as paredes
     function isCollidingWithWalls(x, y) {
+      // Verifica colisão com as paredes, mas agora sem parar o movimento do quadrado azul
       return walls.some(wall => (
         x < wall.x + wall.width &&
         x + componentSize > wall.x &&
@@ -110,20 +108,6 @@
       leftSquareX += directionBlue.x * moveSpeed;
       leftSquareY += directionBlue.y * moveSpeed;
 
-      // Verifica colisão com as paredes para o quadrado preto
-      if (isCollidingWithWalls(componentX, componentY)) {
-        alert('O quadrado preto colidiu com uma parede! O jogo vai parar.');
-        stopMovement(); // Para o movimento se colidir
-        return;
-      }
-
-      // Verifica colisão com as paredes para o quadrado azul
-      if (isCollidingWithWalls(leftSquareX, leftSquareY)) {
-        alert('O quadrado azul colidiu com uma parede! O jogo vai parar.');
-        stopMovement(); // Para o movimento se colidir
-        return;
-      }
-
       // Verifica colisão entre os quadrados
       if (isColliding(componentX, componentY, leftSquareX, leftSquareY)) {
         alert('Colisão detectada entre os quadrados! O jogo vai parar.');
@@ -139,6 +123,7 @@
       leftSquareX = Math.max(0, Math.min(canvas.width - sideSquareSize, leftSquareX));
       leftSquareY = Math.max(0, Math.min(canvas.height - sideSquareSize, leftSquareY));
 
+      // Desenha os componentes no canvas
       drawComponents(); // Atualiza a visualização no canvas
     }
 
